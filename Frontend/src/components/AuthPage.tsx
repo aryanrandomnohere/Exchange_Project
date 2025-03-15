@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { ArrowRight } from 'lucide-react';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
 
@@ -7,16 +6,16 @@ const AuthPage = () => {
   const [isSignIn, setIsSignIn] = useState(true);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-white via-gray-100 to-gray-200 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
-        <div className="bg-gray-800 rounded-2xl shadow-2xl overflow-hidden border border-gray-700">
+        <div className="bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-300">
           {/* Auth Type Selector */}
-          <div className="flex">
+          <div className="flex border-b border-gray-300">
             <button
               className={`flex-1 py-4 text-sm font-semibold transition-colors ${
                 isSignIn
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                  ? 'bg-gray-800 text-white'
+                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
               }`}
               onClick={() => setIsSignIn(true)}
             >
@@ -25,8 +24,8 @@ const AuthPage = () => {
             <button
               className={`flex-1 py-4 text-sm font-semibold transition-colors ${
                 !isSignIn
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                  ? 'bg-gray-800 text-white'
+                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
               }`}
               onClick={() => setIsSignIn(false)}
             >
@@ -36,7 +35,7 @@ const AuthPage = () => {
 
           {/* Form Container */}
           <div className="p-8">
-            <h2 className="text-2xl font-bold text-white text-center mb-8">
+            <h2 className="text-2xl font-bold text-gray-800 text-center mb-8">
               Welcome to Exchange
             </h2>
             {isSignIn ? <SignIn /> : <SignUp />}

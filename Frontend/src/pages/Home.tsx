@@ -1,12 +1,25 @@
 import { Link } from 'react-router-dom';
 import { TrendingUp, ArrowRight } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const Home = () => {
-  const popularStocks = [
+  const [popularStocks, setPopularStocks] = useState( [
     { symbol: 'AAPL', name: 'Apple Inc.', change: '+1.2%' },
     { symbol: 'GOOGL', name: 'Alphabet Inc.', change: '+0.8%' },
     { symbol: 'MSFT', name: 'Microsoft Corp.', change: '+2.1%' },
-  ];
+  ]);
+
+  useEffect(() => {
+    async function getPopularStocks() {
+      const response = await axios.get('http//localhost:5001/api/v1/stocks/popular');
+      console.log(response.data.stocks);
+      
+      setPopularStocks(response.data.stocks);
+  }
+  getPopularStocks();
+},[])
+
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-12">

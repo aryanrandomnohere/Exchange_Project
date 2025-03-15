@@ -1,39 +1,43 @@
 import React, { useState } from 'react';
 import { Mail, Lock, User, ArrowRight } from 'lucide-react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
-  const [name, setName] = useState('');
+  const [username, setUserName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const navigate = useNavigate();
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle sign up logic here
-    console.log('Sign up:', { name, email, password, confirmPassword });
+    console.log('Sign up:', { username, email, password });
+    const response =  await axios.post('http://localhost:5001/api/v1/user/signup', { username, email, password })
+    console.log(response);
+    localStorage.setItem('token', response.data.token)
+    navigate('/dashboard')
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit} className="space-y-6 bg-white p-6 rounded-lg shadow-md">
       <div>
-        <label className="block text-sm font-medium text-gray-300 mb-2">
-          Full Name
+        <label className="block text-sm font-medium text-gray-800 mb-2">
+          Usermame
         </label>
         <div className="relative">
           <User className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
           <input
             type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-gray-400"
-            placeholder="Enter your full name"
+            value={username}
+            onChange={(e) => setUserName(e.target.value)}
+            className="w-full pl-10 pr-4 py-2 bg-gray-200 border border-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-800 placeholder-gray-500"
+            placeholder="Enter your Username"
             required
           />
         </div>
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-300 mb-2">
+        <label className="block text-sm font-medium text-gray-800 mb-2">
           Email Address
         </label>
         <div className="relative">
@@ -42,7 +46,7 @@ const SignUp = () => {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-gray-400"
+            className="w-full pl-10 pr-4 py-2 bg-gray-200 border border-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-800 placeholder-gray-500"
             placeholder="Enter your email"
             required
           />
@@ -50,7 +54,7 @@ const SignUp = () => {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-300 mb-2">
+        <label className="block text-sm font-medium text-gray-800 mb-2">
           Password
         </label>
         <div className="relative">
@@ -59,25 +63,8 @@ const SignUp = () => {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-gray-400"
+            className="w-full pl-10 pr-4 py-2 bg-gray-200 border border-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-800 placeholder-gray-500"
             placeholder="Create a password"
-            required
-          />
-        </div>
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium text-gray-300 mb-2">
-          Confirm Password
-        </label>
-        <div className="relative">
-          <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
-          <input
-            type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-gray-400"
-            placeholder="Confirm your password"
             required
           />
         </div>
@@ -87,16 +74,16 @@ const SignUp = () => {
         <input
           type="checkbox"
           id="terms"
-          className="h-4 w-4 text-blue-600 focus:ring-blue-500 bg-gray-700 border-gray-600 rounded"
+          className="h-4 w-4 text-blue-600 focus:ring-blue-500 bg-gray-200 border-gray-400 rounded"
           required
         />
-        <label htmlFor="terms" className="ml-2 text-sm text-gray-300">
+        <label htmlFor="terms" className="ml-2 text-sm text-gray-800">
           I agree to the{' '}
-          <a href="#" className="text-blue-400 hover:text-blue-300">
+          <a href="#" className="text-blue-600 hover:text-blue-500">
             Terms of Service
           </a>{' '}
           and{' '}
-          <a href="#" className="text-blue-400 hover:text-blue-300">
+          <a href="#" className="text-blue-600 hover:text-blue-500">
             Privacy Policy
           </a>
         </label>
@@ -104,7 +91,7 @@ const SignUp = () => {
 
       <button
         type="submit"
-        className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 group"
+        className="w-full bg-gray-800 text-white py-2 px-4 rounded-lg hover:bg-gray-700 transition-colors flex items-center justify-center gap-2 group"
       >
         Create Account
         <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />

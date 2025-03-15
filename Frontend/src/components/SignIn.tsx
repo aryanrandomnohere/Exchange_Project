@@ -1,20 +1,25 @@
-import React, { useState } from 'react';
+import React, {  useState } from 'react';
 import { Mail, Lock, ArrowRight } from 'lucide-react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle sign in logic here
+    const response = await axios.post('http://localhost:5001/api/v1/user/login', { email, password })
+    localStorage.setItem('token', response.data.token)
+    navigate('/dashboard')
     console.log('Sign in:', { email, password });
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit} className="space-y-6 bg-white p-6 rounded-lg shadow-md">
       <div>
-        <label className="block text-sm font-medium text-gray-300 mb-2">
+        <label className="block text-sm font-medium text-gray-800 mb-2">
           Email Address
         </label>
         <div className="relative">
@@ -23,7 +28,7 @@ const SignIn = () => {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-gray-400"
+            className="w-full pl-10 pr-4 py-2 bg-gray-200 border border-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-800 placeholder-gray-500"
             placeholder="Enter your email"
             required
           />
@@ -31,7 +36,7 @@ const SignIn = () => {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-300 mb-2">
+        <label className="block text-sm font-medium text-gray-800 mb-2">
           Password
         </label>
         <div className="relative">
@@ -40,7 +45,7 @@ const SignIn = () => {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-gray-400"
+            className="w-full pl-10 pr-4 py-2 bg-gray-200 border border-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-800 placeholder-gray-500"
             placeholder="Enter your password"
             required
           />
@@ -52,20 +57,20 @@ const SignIn = () => {
           <input
             type="checkbox"
             id="remember"
-            className="h-4 w-4 text-blue-600 focus:ring-blue-500 bg-gray-700 border-gray-600 rounded"
+            className="h-4 w-4 text-blue-600 focus:ring-blue-500 bg-gray-200 border-gray-400 rounded"
           />
-          <label htmlFor="remember" className="ml-2 text-sm text-gray-300">
+          <label htmlFor="remember" className="ml-2 text-sm text-gray-800">
             Remember me
           </label>
         </div>
-        <a href="#" className="text-sm text-blue-400 hover:text-blue-300">
+        <a href="#" className="text-sm text-blue-600 hover:text-blue-500">
           Forgot password?
         </a>
       </div>
 
       <button
         type="submit"
-        className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 group"
+        className="w-full bg-gray-800 text-white py-2 px-4 rounded-lg hover:bg-gray-700 transition-colors flex items-center justify-center gap-2 group"
       >
         Sign In
         <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
