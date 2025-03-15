@@ -57,7 +57,7 @@ class StocksManager {
         },
         { 
           id: '2', 
-          name: 'Tata Consultancy Services (TCS)', 
+          name: 'Tata Consultancy Services', 
           ticker: 'TCS',
           quantity: 100, 
           price: 3400, 
@@ -92,6 +92,157 @@ class StocksManager {
           quantity: 100, 
           price: 800, 
           value: 80000,
+          candlestick: this.createCandlestickData(),
+          priceHistory: []
+        },
+        // Additional 15 stocks
+        {
+          id: '6',
+          name: 'Bharti Airtel',
+          ticker: 'BHARTIARTL',
+          quantity: 100,
+          price: 750,
+          value: 75000,
+          candlestick: this.createCandlestickData(),
+          priceHistory: []
+        },
+        {
+          id: '7',
+          name: 'Asian Paints',
+          ticker: 'ASIANPAINT',
+          quantity: 100,
+          price: 3200,
+          value: 320000,
+          candlestick: this.createCandlestickData(),
+          priceHistory: []
+        },
+        {
+          id: '8',
+          name: 'Hindustan Unilever',
+          ticker: 'HINDUNILVR',
+          quantity: 100,
+          price: 2600,
+          value: 260000,
+          candlestick: this.createCandlestickData(),
+          priceHistory: []
+        },
+        {
+          id: '9',
+          name: 'ITC Limited',
+          ticker: 'ITC',
+          quantity: 100,
+          price: 420,
+          value: 42000,
+          candlestick: this.createCandlestickData(),
+          priceHistory: []
+        },
+        {
+          id: '10',
+          name: 'State Bank of India',
+          ticker: 'SBIN',
+          quantity: 100,
+          price: 550,
+          value: 55000,
+          candlestick: this.createCandlestickData(),
+          priceHistory: []
+        },
+        {
+          id: '11',
+          name: 'Axis Bank',
+          ticker: 'AXISBANK',
+          quantity: 100,
+          price: 950,
+          value: 95000,
+          candlestick: this.createCandlestickData(),
+          priceHistory: []
+        },
+        {
+          id: '12',
+          name: 'Wipro Limited',
+          ticker: 'WIPRO',
+          quantity: 100,
+          price: 420,
+          value: 42000,
+          candlestick: this.createCandlestickData(),
+          priceHistory: []
+        },
+        {
+          id: '13',
+          name: 'Tech Mahindra',
+          ticker: 'TECHM',
+          quantity: 100,
+          price: 1200,
+          value: 120000,
+          candlestick: this.createCandlestickData(),
+          priceHistory: []
+        },
+        {
+          id: '14',
+          name: 'Tata Motors',
+          ticker: 'TATAMOTORS',
+          quantity: 100,
+          price: 580,
+          value: 58000,
+          candlestick: this.createCandlestickData(),
+          priceHistory: []
+        },
+        {
+          id: '15',
+          name: 'Maruti Suzuki',
+          ticker: 'MARUTI',
+          quantity: 100,
+          price: 9800,
+          value: 980000,
+          candlestick: this.createCandlestickData(),
+          priceHistory: []
+        },
+        {
+          id: '16',
+          name: 'Bajaj Finance',
+          ticker: 'BAJFINANCE',
+          quantity: 100,
+          price: 6900,
+          value: 690000,
+          candlestick: this.createCandlestickData(),
+          priceHistory: []
+        },
+        {
+          id: '17',
+          name: 'Adani Ports',
+          ticker: 'ADANIPORTS',
+          quantity: 100,
+          price: 780,
+          value: 78000,
+          candlestick: this.createCandlestickData(),
+          priceHistory: []
+        },
+        {
+          id: '18',
+          name: 'Sun Pharma',
+          ticker: 'SUNPHARMA',
+          quantity: 100,
+          price: 1100,
+          value: 110000,
+          candlestick: this.createCandlestickData(),
+          priceHistory: []
+        },
+        {
+          id: '19',
+          name: 'Dr Reddys Labs',
+          ticker: 'DRREDDY',
+          quantity: 100,
+          price: 4800,
+          value: 480000,
+          candlestick: this.createCandlestickData(),
+          priceHistory: []
+        },
+        {
+          id: '20',
+          name: 'Larsen & Toubro',git 
+          ticker: 'LT',
+          quantity: 100,
+          price: 2300,
+          value: 230000,
           candlestick: this.createCandlestickData(),
           priceHistory: []
         }

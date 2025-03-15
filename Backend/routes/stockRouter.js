@@ -1,5 +1,6 @@
 const express = require("express");
 const { AuthMiddleware } = require("../Middleware");
+const { stockManager } = require("../Stocks/StocksManager");
 
 const stockRouter = express.Router();
 

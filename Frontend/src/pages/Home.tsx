@@ -12,7 +12,7 @@ const Home = () => {
 
   useEffect(() => {
     async function getPopularStocks() {
-      const response = await axios.get('http//localhost:5001/api/v1/stocks/popular');
+      const response = await axios.get('http://localhost:5001/popular');
       console.log(response.data.stocks);
       
       setPopularStocks(response.data.stocks);
@@ -31,10 +31,10 @@ const Home = () => {
       <div className="grid md:grid-cols-2 gap-8 mb-12">
         <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
           <h2 className="text-2xl font-semibold mb-4 text-gray-900">Popular Stocks</h2>
-          <div className="space-y-4">
+          <div className="space-y-4 max-h-96 overflow-y-auto">
             {popularStocks.map((stock) => (
               <Link
-                key={stock.symbol}
+                key={stock.symbol} 
                 to={`/stock/${stock.symbol}`}
                 className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
               >
