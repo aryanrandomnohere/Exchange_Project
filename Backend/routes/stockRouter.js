@@ -1,63 +1,64 @@
 const express = require("express");
 const { AuthMiddleware } = require("../Middleware");
 const { stockManager } = require("../Stocks/StocksManager");
-
 const stockRouter = express.Router();
-
-stockRouter.get("/stock/specific/:symbol", async (req, res) => {
+stockManager.generateHistoricalTickerData();
+stockManager.startPriceSimulation();
+// Fetch specific stock historical data from Yahoo Finance
+stockRouter.get("/specific/:symbol", async (req, res) => {
     const { symbol } = req.params;
   
     try {
-      // Yahoo Finance symbol format for NSE (e.g., TCS.NS for TCS)
-      const stockSymbol = `${symbol}.NS`;
+        const stockSymbol = `${symbol}.NS`;
+        const result = await yahooFinance.historical(
+            stockSymbol,
+            {
+                period1: new Date(new Date().setDate(new Date().getDate() - 7)),
+                period2: new Date(),
+                interval: '1d',
+            }
+        );
   
-      // Fetch historical data from Yahoo Finance (1 week range)
-      const result = await yahooFinance.historical(
-        stockSymbol,
-        {
-          period1: new Date(new Date().setDate(new Date().getDate() - 7)), // 1 week ago
-          period2: new Date(), // today
-          interval: '1d', // Daily candlestick data
-        }
-      );
-  
-      const formattedData = result.map(entry => ({
-        time: entry.date.toISOString(), // Convert Date object to ISO string
-        open: entry.open,
-        high: entry.high,
-        low: entry.low,
-        close: entry.close,
-      }));
-  
-      console.log(formattedData);
-  
-      res.json({ final: formattedData }); // Send the formatted data to the client
-    } catch (error) {
-      console.error("Error fetching stock data:", error);
-      res.status(500).json({ error: "Failed to fetch stock data" });
-    }
-  });
+        const formattedData = result.map(entry => ({
+            time: entry.date.toISOString(),
+            open: entry.open,
+            high: entry.high,
+            low: entry.low,
+            close: entry.close,
+        }));
 
-  stockRouter.get("/popular", async (req, res) => {
+  
+        res.json({ final: formattedData });
+    } catch (error) {
+        console.error("Error fetching stock data:", error);
+        res.status(500).json({ error: "Failed to fetch stock data" });
+    }
+});
+
+// Fetch popular stocks from stockManager
+stockRouter.get("/popular", async (req, res) => {
     console.log("Fetching popular stocks");
+  
     try {
         // Get the list of stocks from the stockManager instance
         const stocks = stockManager.getStocks();
-        
-        // Format the stocks in the required structure
+        console.log(stocks[1].candlestick)
+        // Format stocks with price change %
         const formattedStocks = stocks.map(stock => {
-            // Calculate a random change percentage for demonstration
-            // In a real app, you would calculate this based on previous price
-            const changeValue = ((stock.price - stock.candlestick.open) / stock.candlestick.open * 100).toFixed(1);
+            if (!stock.candlestick || stock.candlestick.length === 0) return null; // Handle empty data
+            
+            const lastCandle = stock.candlestick[stock.candlestick.length - 1];
+            const changeValue = ((stock.price - lastCandle.open) / lastCandle.open * 100).toFixed(1);
             const changePrefix = changeValue >= 0 ? '+' : '';
             const change = `${changePrefix}${changeValue}%`;
             
             return {
                 symbol: stock.ticker,
                 name: stock.name,
+                price: stock.price,
                 change: change
             };
-        });
+        }).filter(stock => stock !== null); // Remove null values
         
         console.log("Formatted stocks:", formattedStocks);
         res.json({ stocks: formattedStocks });
@@ -65,6 +66,34 @@ stockRouter.get("/stock/specific/:symbol", async (req, res) => {
         console.error("Error fetching stocks:", error);
         res.status(500).json({ error: "Failed to fetch stocks" });
     }
-});
+  });
 
-  module.exports = stockRouter;
+// Fetch candlestick data from stockManager
+stockRouter.get("/historicalcandlestick/:symbol", async (req, res) => {
+    const { symbol } = req.params;
+
+    try {
+        // Find the stock by ticker symbol
+        const stock = stockManager.getStocks().find(s => s.ticker === symbol.toUpperCase());
+        
+        if (!stock) {
+            return res.status(404).json({ error: "Stock not found" });
+        }
+
+        // Get historical candlestick data (replace this with your actual data source)
+        const candlestickData = stockManager.getCandleStickData(symbol.toUpperCase()); // Example function
+        console.log("Candlestick data:", candlestickData);
+        if (!candlestickData || candlestickData.length === 0) {
+            return res.status(404).json({ error: "No candlestick data available" });
+        }
+
+        // Sort data to ensure it's in ascending order
+        const sortedData = candlestickData.sort((a, b) => a.time - b.time);
+       console.log("Sorted data:", sortedData);
+        res.json(sortedData);
+    } catch (error) {
+        console.error("Error fetching candlestick data:", error);
+        res.status(500).json({ error: "Failed to fetch candlestick data" });
+    }
+});
+module.exports = stockRouter;

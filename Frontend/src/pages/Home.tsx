@@ -12,7 +12,7 @@ const Home = () => {
 
   useEffect(() => {
     async function getPopularStocks() {
-      const response = await axios.get('http://localhost:5001/popular');
+      const response = await axios.get('http://localhost:5001/api/v1/stock/popular');
       console.log(response.data.stocks);
       
       setPopularStocks(response.data.stocks);
