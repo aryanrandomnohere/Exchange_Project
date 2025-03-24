@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = env("postgresql://postgres:mysecretpassword@localhost:5432/postgres")
 }
 
 model User {
@@ -22,6 +22,10 @@ model ownedStock {
   stockId   String  @unique
   quantity  Int
 }
+
+//orderbook
+order-10 stock buy
+sell 5
 
 
 

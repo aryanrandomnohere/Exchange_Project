@@ -8,12 +8,16 @@ const SignIn = () => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const response = await axios.post('http://localhost:5001/api/v1/user/login', { email, password })
-    localStorage.setItem('token', response.data.token)
-    navigate('/dashboard')
-    console.log('Sign in:', { email, password });
+    const response =  axios.post('http://localhost:5001/api/v1/user/login', { email, password }).then((response)=>{
+      localStorage.setItem('token', response.data.token)
+      navigate('/dashboard')
+      console.log('Sign in:', { email, password });
+    }).catch(error){
+      console.log("error")
+    }
+ 
   };
 
   return (
